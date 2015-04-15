@@ -1,47 +1,35 @@
 ---
+#driver:
+#  name: vsphere
 
-driver_plugin: vsphere
+driver: 
+  name: vsphere
+  max_wait_until_ready: 30
+
+transport:
+  name: ssh
+  max_wait_until_ready: 30
 
 driver_config:
   username:  'chefdude' # [ssh user name of provisioned guest (default is root)]
   password:  'KnifesAreFun' # [ssh password of provisioned guest]
   authentication:
-    vsphere_username: 'EACANADA\kstewart' #[your vsphere server user name]
-    vsphere_password: 'FuzzyWuzzy!' #[your vsphere server password]
+    #vsphere_username: # set this in .kitchen.local.yml [your vsphere server user name]
+    #vsphere_password: # set this in .kitchen.local.yml [your vsphere server password]
     vsphere_server: 'eaclab-vcs01.itlab.ea.com' #[your vsphere server host name]
-#    vsphere_expected_pubkey_hash: #[hash of your hosts public ssl key]
+    # i got this by providing it and then running kitchen list, the error message returned this value
+    vsphere_expected_pubkey_hash: '9ac7c56f460eca48df79ed1ec45d60aa4026008e05a6e33eeeb030a90bb40eac' #'[hash of your hosts public ssl key]
   server_create:
     datacenter: 'Burnaby' #[vsphere datacenter name where template is located]
     network_label: '10.9.176.0/23' # [vsphere network name to use]
     network_adapter_device_key: 4000 # [network key] (from comment on github)
-    template_path: '/esx_lab_iso/chef-kitchen-centos66' #[path to the template of vm to clone]
+    template_path: 'chef-kitchen-centos66' #[path to the template of vm to clone]
 
 provisioner:
   name: chef_zero
 
-
 platforms:
-#  - name: win7-x32-ie11-winrm
-#    transport: 
-#      name: "winrm" 
-#      port: 55985
-#    driver: 
-#      box: win7-x32-ie11-winrm
-#      communicator: winrm
-#      port: 55985
-#      username: "ieuser"
-#      password: "Passw0rd!"
-#      driver_config:
-#        port: 55985
-#      log_level: debug
-#      winrm:
-#      #  user: "ieuser"
-#      #  password: "Passw0rd!"
-#  - name: win7-x32-ie11
-#    driver: 
-  - name: centos-6.5-opscode
-#    driver:
-#      box: centos-6.5-opscode
+  - name: centos-kitchen
 
 suites:
   - name: default
